@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\KriteriaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,11 @@ Route::middleware('auth')->group(function () {
 
     // Pelanggan Routes
     Route::resource('pelanggan', PelangganController::class);
+
+    // Kriteria Management Routes
+    Route::resource('kriteria', KriteriaController::class)->parameters([
+        'kriteria' => 'kriteria'
+    ]);
 });
 
 require __DIR__.'/auth.php';
