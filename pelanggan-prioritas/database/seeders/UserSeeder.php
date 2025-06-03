@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -12,29 +11,33 @@ class UserSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run()
-{
-    User::create([
-        'name' => 'Admin',
-        'email' => 'admin@example.com',
-        'password' => Hash::make('password'),
-        'role' => 'admin'
-    ]);
+    public function run(): void
+    {
+        // Create admin user
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]);
 
-    User::create([
-        'name' => 'Manager',
-        'email' => 'manager@example.com',
-        'password' => Hash::make('password'),
-        'role' => 'manager'
-    ]);
+        // Create manager user
+        User::create([
+            'name' => 'Manager',
+            'email' => 'manager@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'manager',
+            'email_verified_at' => now(),
+        ]);
 
-    User::create([
-        'name' => 'Karyawan',
-        'email' => 'karyawan@example.com',
-        'password' => Hash::make('password'),
-        'role' => 'karyawan'
-    ]);
-
-}
-
+        // Create employee user
+        User::create([
+            'name' => 'Karyawan',
+            'email' => 'karyawan@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'karyawan',
+            'email_verified_at' => now(),
+        ]);
+    }
 }

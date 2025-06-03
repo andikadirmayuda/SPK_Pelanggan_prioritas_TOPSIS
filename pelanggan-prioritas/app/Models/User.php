@@ -46,4 +46,30 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Valid roles for users
+     *
+     * @return array
+     */
+    public static function roles(): array
+    {
+        return ['admin', 'manager', 'karyawan'];
+    }
+
+    /**
+     * Check if user has specific role
+     */
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('admin');
+    }
 }
