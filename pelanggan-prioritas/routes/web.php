@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\SubKriteriaController;
+use App\Http\Controllers\PenilaianController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('sub-kriteria', SubKriteriaController::class)->parameters([
         'sub-kriteria' => 'sub_kriteria'
     ]);
+
+    // Penilaian Routes
+    Route::resource('penilaian', PenilaianController::class);
+    Route::get('/get-sub-kriteria/{kriteria_id}', [PenilaianController::class, 'getSubKriteria'])->name('get-sub-kriteria');
 });
 
 require __DIR__.'/auth.php';
