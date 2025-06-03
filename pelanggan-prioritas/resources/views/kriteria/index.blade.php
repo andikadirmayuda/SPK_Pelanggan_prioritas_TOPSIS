@@ -13,23 +13,22 @@
                         <a href="{{ route('kriteria.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Tambah Kriteria
                         </a>
-                    </div>
-
-                    <table class="min-w-full divide-y divide-gray-200">
+                    </div>                    <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bobot</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($kriteria as $item)
+                        <tbody class="bg-white divide-y divide-gray-200">                            @foreach ($kriteria as $index => $item)
                             <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $item->nama }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ number_format($item->bobot, 2) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->tipe }}</td>                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $item->tipe }}</td><td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('kriteria.edit', $item) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
                                     <form action="{{ route('kriteria.destroy', $item) }}" method="POST" class="inline">
                                         @csrf

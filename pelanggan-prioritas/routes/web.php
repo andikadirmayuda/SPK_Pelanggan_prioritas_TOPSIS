@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\KriteriaController;
+use App\Http\Controllers\SubKriteriaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,11 @@ Route::middleware('auth')->group(function () {
     // Kriteria Management Routes
     Route::resource('kriteria', KriteriaController::class)->parameters([
         'kriteria' => 'kriteria'
+    ]);
+
+    // Sub Kriteria Management Routes
+    Route::resource('sub-kriteria', SubKriteriaController::class)->parameters([
+        'sub-kriteria' => 'sub_kriteria'
     ]);
 });
 
