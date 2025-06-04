@@ -20,8 +20,11 @@ class SubKriteriaController extends Controller
      */
     public function index()
     {
-        $subKriterias = SubKriteria::with('kriteria')->get();
-        return view('sub-kriteria.index', compact('subKriterias'));
+        // Get all kriteria with their sub-kriteria
+        $kriterias = Kriteria::with(['subKriteria' => function($query) {
+            $query->orderBy('nilai');
+        }])->get();
+        return view('sub-kriteria.index', compact('kriterias'));
     }
 
     /**
@@ -41,11 +44,21 @@ class SubKriteriaController extends Controller
         $validated = $request->validate([
             'kriteria_id' => 'required|exists:kriteria,id',
             'nama' => 'required|string|max:255',
-            'nilai' => 'required|numeric|in:1,2,3,4',
-            'keterangan' => 'required|string|in:Kurang,Cukup,Baik,Sangat Baik',
         ]);
 
-        SubKriteria::create($validated);
+        // Get the selected kriteria
+        $kriteria = Kriteria::findOrFail($validated['kriteria_id']);
+        
+        // Create sub-kriteria with predefined nilai options
+        $subKriteriaNama = $validated['nama'];
+        foreach ($this->nilaiOptions as $nilai => $keterangan) {
+            SubKriteria::create([
+                'kriteria_id' => $kriteria->id,
+                'nama' => $subKriteriaNama . ' - ' . $keterangan,
+                'nilai' => $nilai,
+                'keterangan' => $keterangan
+            ]);
+        }
 
         return redirect()->route('sub-kriteria.index')
             ->with('success', 'Sub Kriteria berhasil ditambahkan');
