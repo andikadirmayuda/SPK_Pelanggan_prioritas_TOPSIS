@@ -11,4 +11,12 @@ class Pelanggan extends Model
 
     protected $table = 'pelanggan';
     protected $fillable = ['nama', 'email', 'telepon'];
+
+    /**
+     * Get all penilaian for the pelanggan.
+     */
+    public function penilaian()
+    {
+        return $this->hasMany(Penilaian::class);
+    }
 }
