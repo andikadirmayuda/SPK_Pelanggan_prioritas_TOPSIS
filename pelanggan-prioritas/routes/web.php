@@ -6,6 +6,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\PenilaianController;
+use App\Http\Controllers\HasilTopsisController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -42,6 +43,9 @@ Route::middleware('auth')->group(function () {
     // Penilaian Routes
     Route::resource('penilaian', PenilaianController::class);
     Route::get('/get-sub-kriteria/{kriteria_id}', [PenilaianController::class, 'getSubKriteria'])->name('get-sub-kriteria');
+
+    // Hasil TOPSIS Routes
+    Route::get('/hasil-topsis', [HasilTopsisController::class, 'index'])->name('hasil-topsis.index');
 });
 
 require __DIR__.'/auth.php';
