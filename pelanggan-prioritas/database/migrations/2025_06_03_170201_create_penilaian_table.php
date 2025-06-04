@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pelanggan_id')->constrained('pelanggan')->onDelete('cascade');
             $table->foreignId('kriteria_id')->constrained('kriteria')->onDelete('cascade');
             $table->foreignId('sub_kriteria_id')->constrained('sub_kriteria')->onDelete('cascade');
+            $table->year('tahun');
             $table->timestamps();
         });
     }

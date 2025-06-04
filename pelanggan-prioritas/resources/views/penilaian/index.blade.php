@@ -8,12 +8,29 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <div class="mb-4">
-                        <a href="{{ route('penilaian.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Tambah Penilaian
-                        </a>
-                    </div>                    <div class="space-y-6">
+                <div class="p-6 text-gray-900">                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <a href="{{ route('penilaian.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Tambah Penilaian
+                            </a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <form action="{{ route('penilaian.index') }}" method="GET" class="flex items-center space-x-2">
+                                <label for="filter_tahun" class="text-sm font-medium text-gray-700">Filter Tahun:</label>
+                                <select name="tahun" id="filter_tahun" onchange="this.form.submit()" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="">Semua Tahun</option>
+                                    @php
+                                        $years = App\Models\Penilaian::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+                                    @endphp
+                                    @foreach($years as $year)
+                                        <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
+                    </div><div class="space-y-6">
                         @foreach($pelanggans as $pelanggan)
                             <div class="border rounded-lg overflow-hidden">
                                 <div class="bg-gray-100 px-4 py-3 border-b">

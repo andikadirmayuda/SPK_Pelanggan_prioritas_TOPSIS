@@ -14,6 +14,20 @@
                         @method('PUT')
                         
                         <div class="mb-4">
+                            <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun Penilaian</label>
+                            <select name="tahun" id="tahun" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                                @for($year = date('Y'); $year >= date('Y') - 5; $year--)
+                                    <option value="{{ $year }}" {{ old('tahun', $penilaian->tahun) == $year ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
+                                @endfor
+                            </select>
+                            @error('tahun')
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
                             <label for="pelanggan_id" class="block text-sm font-medium text-gray-700">Pelanggan</label>
                             <select name="pelanggan_id" id="pelanggan_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                 <option value="">Pilih Pelanggan</option>

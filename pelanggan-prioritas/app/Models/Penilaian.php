@@ -11,11 +11,11 @@ class Penilaian extends Model
     use HasFactory;
 
     protected $table = 'penilaian';
-    
-    protected $fillable = [
+      protected $fillable = [
         'pelanggan_id',
         'kriteria_id',
-        'sub_kriteria_id'
+        'sub_kriteria_id',
+        'tahun'
     ];
 
     /**

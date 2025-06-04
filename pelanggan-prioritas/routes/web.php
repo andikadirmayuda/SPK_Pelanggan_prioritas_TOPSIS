@@ -7,10 +7,11 @@ use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\SubKriteriaController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\HasilTopsisController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -46,6 +47,10 @@ Route::middleware('auth')->group(function () {
 
     // Hasil TOPSIS Routes
     Route::get('/hasil-topsis', [HasilTopsisController::class, 'index'])->name('hasil-topsis.index');
+    
+    // Laporan Routes
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/download/{tahun}', [LaporanController::class, 'downloadPDF'])->name('laporan.download');
 });
 
 require __DIR__.'/auth.php';

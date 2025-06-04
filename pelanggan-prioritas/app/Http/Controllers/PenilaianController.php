@@ -9,10 +9,17 @@ use App\Models\SubKriteria;
 use Illuminate\Http\Request;
 
 class PenilaianController extends Controller
-{
-    public function index()
+{    public function index(Request $request)
     {
-        $pelanggans = Pelanggan::with(['penilaian.kriteria', 'penilaian.subKriteria'])->get();
+        $query = Pelanggan::with(['penilaian.kriteria', 'penilaian.subKriteria']);
+
+        if ($request->has('tahun') && $request->tahun !== '') {
+            $query->whereHas('penilaian', function($q) use ($request) {
+                $q->where('tahun', $request->tahun);
+            });
+        }
+
+        $pelanggans = $query->get();
         return view('penilaian.index', compact('pelanggans'));
     }
 
@@ -24,12 +31,11 @@ class PenilaianController extends Controller
             $query->orderBy('nilai');
         }])->get();
         return view('penilaian.create', compact('pelanggans', 'kriterias'));
-    }
-
-    public function store(Request $request)
+    }    public function store(Request $request)
     {
         $request->validate([
             'pelanggan_id' => 'required|exists:pelanggan,id',
+            'tahun' => 'required|digits:4|integer|min:1900|max:'.(date('Y')+1),
             'penilaian' => 'required|array',
             'penilaian.*.kriteria_id' => 'required|exists:kriteria,id',
             'penilaian.*.sub_kriteria_id' => 'required|exists:sub_kriteria,id',
@@ -38,6 +44,7 @@ class PenilaianController extends Controller
         foreach ($request->penilaian as $nilai) {
             Penilaian::create([
                 'pelanggan_id' => $request->pelanggan_id,
+                'tahun' => $request->tahun,
                 'kriteria_id' => $nilai['kriteria_id'],
                 'sub_kriteria_id' => $nilai['sub_kriteria_id']
             ]);
@@ -52,12 +59,11 @@ class PenilaianController extends Controller
         $pelanggans = Pelanggan::all();
         $kriterias = Kriteria::with('subKriteria')->get();
         return view('penilaian.edit', compact('penilaian', 'pelanggans', 'kriterias'));
-    }
-
-    public function update(Request $request, Penilaian $penilaian)
+    }    public function update(Request $request, Penilaian $penilaian)
     {
         $request->validate([
             'pelanggan_id' => 'required|exists:pelanggan,id',
+            'tahun' => 'required|digits:4|integer|min:1900|max:'.(date('Y')+1),
             'kriteria_id' => 'required|exists:kriteria,id',
             'sub_kriteria_id' => 'required|exists:sub_kriteria,id'
         ]);
