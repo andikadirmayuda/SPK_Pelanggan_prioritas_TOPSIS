@@ -13,7 +13,8 @@
                         <a href="{{ route('kriteria.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Tambah Kriteria
                         </a>
-                    </div>                    <table class="min-w-full divide-y divide-gray-200">
+                    </div>                    
+                    <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>

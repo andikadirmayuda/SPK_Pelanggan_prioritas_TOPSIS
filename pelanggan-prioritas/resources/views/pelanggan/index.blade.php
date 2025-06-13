@@ -4,9 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Data Pelanggan
             </h2>
-            <a href="{{ route('pelanggan.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            {{-- <a href="{{ route('pelanggan.create') }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 Tambah Pelanggan
-            </a>
+            </a> --}}
         </div>
     </x-slot>
 
@@ -16,6 +16,13 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        <div class="p-6 text-gray-900">
+            <div class="mb-4">
+                <a href="{{ route('pelanggan.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Tambah Pelanggan
+                </a>
+            </div> 
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">

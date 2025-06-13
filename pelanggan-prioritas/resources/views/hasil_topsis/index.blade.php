@@ -1,13 +1,38 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Hasil Perhitungan TOPSIS') }}
-        </h2>
+<x-app-layout>    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Hasil Perhitungan TOPSIS') }}
+            </h2>
+            @if($tahunTersedia->isNotEmpty())
+            <div class="flex items-center">
+                <form action="{{ route('hasil-topsis.index') }}" method="GET" class="flex items-center space-x-4">
+                    <select name="tahun" id="tahun" onchange="this.form.submit()" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @foreach($tahunTersedia as $tahun)
+                            <option value="{{ $tahun }}" {{ $tahun == $tahunTerpilih ? 'selected' : '' }}>
+                                {{ $tahun }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+            @endif
+        </div>
     </x-slot>
+
+    @if(session('error'))
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        </div>
+    </div>
+    @endif
 
 
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <h1>halo</h1>
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
             <div class="max-w-full">
 

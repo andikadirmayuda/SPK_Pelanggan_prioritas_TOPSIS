@@ -11,16 +11,27 @@ use Illuminate\Http\Request;
 class PenilaianController extends Controller
 {    public function index(Request $request)
     {
-        $query = Pelanggan::with(['penilaian.kriteria', 'penilaian.subKriteria']);
+        // Get tahun from request or use current year as default
+        $tahunTerpilih = $request->input('tahun', date('Y'));
+        
+        // Get pelanggan with their penilaian for the selected year only
+        $pelanggans = Pelanggan::with(['penilaian' => function($query) use ($tahunTerpilih) {
+            $query->where('tahun', $tahunTerpilih)
+                  ->with(['kriteria', 'subKriteria']);
+        }])->get();
 
-        if ($request->has('tahun') && $request->tahun !== '') {
-            $query->whereHas('penilaian', function($q) use ($request) {
-                $q->where('tahun', $request->tahun);
-            });
-        }
+        // Filter out pelanggan without penilaian for the selected year
+        $pelanggans = $pelanggans->filter(function($pelanggan) {
+            return $pelanggan->penilaian->isNotEmpty();
+        });
 
-        $pelanggans = $query->get();
-        return view('penilaian.index', compact('pelanggans'));
+        // Get available years for the filter
+        $tahunTersedia = Penilaian::select('tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        return view('penilaian.index', compact('pelanggans', 'tahunTersedia', 'tahunTerpilih'));
     }
 
     public function create()

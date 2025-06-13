@@ -14,16 +14,18 @@
                                 Tambah Penilaian
                             </a>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <form action="{{ route('penilaian.index') }}" method="GET" class="flex items-center space-x-2">
+                        <div class="flex items-center space-x-4">                            <form action="{{ route('penilaian.index') }}" method="GET" class="flex items-center space-x-2">
                                 <label for="filter_tahun" class="text-sm font-medium text-gray-700">Filter Tahun:</label>
                                 <select name="tahun" id="filter_tahun" onchange="this.form.submit()" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">Semua Tahun</option>
                                     @php
-                                        $years = App\Models\Penilaian::select('tahun')->distinct()->orderBy('tahun', 'desc')->pluck('tahun');
+                                        $years = App\Models\Penilaian::select('tahun')
+                                            ->distinct()
+                                            ->orderBy('tahun', 'desc')
+                                            ->pluck('tahun');
+                                        $selectedYear = request('tahun', date('Y'));
                                     @endphp
                                     @foreach($years as $year)
-                                        <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
                                             {{ $year }}
                                         </option>
                                     @endforeach
@@ -49,8 +51,7 @@
                                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aksi</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            @foreach($pelanggan->penilaian as $index => $penilaian)
+                                        <tbody class="bg-white divide-y divide-gray-200">                                            @foreach($pelanggan->penilaian->where('tahun', $selectedYear) as $index => $penilaian)
                                                 <tr>
                                                     <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
                                                     <td class="px-6 py-4 whitespace-nowrap">{{ $penilaian->kriteria->nama }}</td>
